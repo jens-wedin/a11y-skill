@@ -18,6 +18,12 @@ Equips QA engineers with automated scanning tools (axe-core, ESLint) and manual 
 - **Triggers:** "run accessibility audit", "check WCAG compliance", "a11y-qa".
 - **Best For:** Pre-release audits, regression testing, and creating structured compliance reports.
 
+### 3. [a11y-design](file:///Users/jens.wedin/Documents/Code/a11y-skill/a11y-design/SKILL.md)
+**Focus:** Design & Documentation
+Helps designers create a11y specs, assess designs in code/Storybook, and integrate with design tools like Figma.
+- **Triggers:** "design accessibility", "a11y-design", "accessibility-design", "review design for a11y".
+- **Best For:** Annotation/specs creation, design system reviews, and shifting accessibility left.
+
 ---
 
 ## 🛠 Installation & Setup
@@ -31,6 +37,7 @@ Reference the skills in your configuration or use them directly in a session:
 # Add to your project context
 /skill add ./a11y-dev/SKILL.md
 /skill add ./a11y-qa/SKILL.md
+/skill add ./a11y-design/SKILL.md
 ```
 
 ---
@@ -61,4 +68,5 @@ These skills are built upon industry-standard accessibility guidelines:
 
 - `a11y-dev/`: Developer-focused patterns and implementation guides.
 - `a11y-qa/`: QA-focused auditing tools and checklists.
+- `a11y-design/`: Designer-focused documentation and assessment guides.
 - `References/`: Supplemental guides and original documentation.
