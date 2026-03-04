@@ -1,14 +1,11 @@
 ---
 name: a11y-dev
-version: "1.0"
 description: >
-  Front-end accessibility implementation guide for developers. Provides semantic HTML
-  patterns, ARIA attributes, keyboard navigation, focus management, and ESLint setup.
-  PROACTIVELY activate when writing or reviewing front-end components, forms, modals,
-  interactive widgets, or when asked to "make this accessible".
-  Triggers: "write accessible", "make this accessible", "add ARIA", "fix accessibility",
-  "a11y-dev", "accessibility-dev", "WCAG", "screen reader", "keyboard navigation"
-group: accessibility
+  Use when writing or reviewing front-end components, forms, modals, or interactive
+  widgets, or when asked to "make this accessible", "add ARIA", "fix accessibility",
+  "a11y-dev", "write accessible code", "WCAG", "screen reader support", "keyboard
+  navigation", "focus management", "semantic HTML", "skip link", or "aria-label".
+  Activate proactively when implementing any interactive UI element.
 ---
 
 # Accessibility for Developers
@@ -137,32 +134,8 @@ function Accordion({ title, children, isOpen, onToggle }) {
 
 ### Tabs
 
-```tsx
-<div role="tablist" aria-label="Settings sections">
-  <button
-    role="tab"
-    aria-selected={activeTab === 'general'}
-    aria-controls="panel-general"
-    id="tab-general"
-    tabIndex={activeTab === 'general' ? 0 : -1}
-    onClick={() => setActiveTab('general')}
-  >
-    General
-  </button>
-  {/* more tabs... */}
-</div>
-
-<div
-  role="tabpanel"
-  id="panel-general"
-  aria-labelledby="tab-general"
-  hidden={activeTab !== 'general'}
->
-  {/* panel content */}
-</div>
-```
-
-> Implement arrow key navigation within `role="tablist"` (roving tabindex pattern).
+Full tablist/tab/tabpanel implementation with roving tabindex keyboard behaviour →
+`references/aria-patterns.md`
 
 ---
 
@@ -194,53 +167,8 @@ Only use this pattern when you cannot use a native `<button>`. Native buttons ha
 ### Modal Focus Trap
 
 When a modal opens, focus must stay inside it. When it closes, return focus to the
-trigger element.
-
-```tsx
-function Modal({ isOpen, onClose, triggerRef, children }) {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    // Move focus into the modal
-    const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    focusable?.[0]?.focus();
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-        triggerRef.current?.focus(); // return focus to trigger
-      }
-      // Trap Tab/Shift+Tab within modal
-      if (e.key === 'Tab' && focusable) {
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, triggerRef]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="dialog-title">
-      {children}
-    </div>
-  );
-}
-```
+trigger element. Full implementation with Tab/Shift+Tab trapping and Escape handling →
+`references/aria-patterns.md`
 
 ---
 
@@ -423,61 +351,95 @@ Every link and button must have a name that makes sense out of context.
 ## 11. ESLint Static Analysis Setup
 
 Catch accessibility issues at development time with `eslint-plugin-jsx-a11y`.
+Full setup instructions, CI integration, and false-positive guidance → `references/eslint-setup.md`.
 
-**Install:**
+**Quick start:**
 ```bash
-pnpm add -D eslint-plugin-jsx-a11y   # or npm/yarn
-```
-
-**Standalone config (ESLint 9 flat config):**
-```javascript
-// eslint.a11y.mjs
-import jsxA11y from "eslint-plugin-jsx-a11y";
-import tseslint from "typescript-eslint";
-
-export default [
-  {
-    files: ["src/**/*.tsx", "src/**/*.jsx"],
-    plugins: { "jsx-a11y": jsxA11y },
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: { ecmaFeatures: { jsx: true } },
-    },
-    rules: { ...jsxA11y.flatConfigs.recommended.rules },
-  },
-];
-```
-
-**Run:**
-```bash
+pnpm add -D eslint-plugin-jsx-a11y
 npx eslint --config eslint.a11y.mjs src/
 ```
-
-**Known false positives to suppress:**
-- Custom component props named `role` (not the HTML `role` attribute)
-- Components that forward ARIA props to a child element
 
 ---
 
 ## 12. Pre-Commit Checklist
 
-Before merging a PR that touches interactive UI:
+Full checklist with screen reader spot-check instructions → `references/pr-checklist.md`.
 
-- [ ] All images have `alt` text (`alt=""` for decorative)
-- [ ] All form inputs have an associated `<label>`
-- [ ] Icon-only buttons have `aria-label`
-- [ ] Focus is never removed without a visible replacement style
-- [ ] New interactive elements are reachable and operable by keyboard
-- [ ] No heading levels are skipped
-- [ ] Color is not the only way to convey information
-- [ ] Dynamic content changes are announced via `aria-live` or `role="alert"`
-- [ ] Modals trap focus and restore it on close
-- [ ] Tab from top to bottom of the page — focus order makes sense
-- [ ] Quick screen reader check (VoiceOver on macOS: Cmd+F5, NVDA on Windows: free)
+Key items before merging any interactive UI change:
+- All images have `alt`; icon-only buttons have `aria-label`
+- All form inputs have an associated `<label>`
+- Focus styles never removed without a visible replacement
+- Keyboard navigation works end-to-end
+- Dynamic changes announced via `aria-live` or `role="alert"`
 
+
+---
+
+## Examples
+
+### Example 1: Making a new component accessible from scratch
+
+User says: "write an accessible dropdown menu"
+
+Actions:
+1. Use `role="menu"` / `role="menuitem"` pattern with keyboard navigation
+2. Implement arrow-key roving tabindex
+3. Add `aria-expanded` on the trigger button
+4. Trap focus when open, return focus on Escape/selection
+
+Result: Fully keyboard-navigable, screen-reader-announced dropdown following the ARIA menu pattern.
+
+### Example 2: Reviewing an existing form for accessibility issues
+
+User says: "make this form accessible"
+
+Actions:
+1. Verify every `input` has an associated `<label htmlFor>`
+2. Add `aria-describedby` for hint text and error messages
+3. Set `aria-invalid` and `role="alert"` on error paragraphs
+4. Add `aria-required="true"` on required fields
+5. Check colour contrast of placeholder and label text
+
+Result: Form where every field is labelled, errors are announced, and the state is fully communicated to assistive technology.
+
+### Example 3: Adding a skip link and landmark structure to a page
+
+User says: "add keyboard navigation improvements to this page"
+
+Actions:
+1. Insert skip link as first element in `<body>`
+2. Wrap navigation in `<nav aria-label="Main navigation">`
+3. Wrap primary content in `<main id="main-content" tabIndex={-1}>`
+4. Audit heading hierarchy — fix any skipped levels
+
+Result: Page with working skip navigation, correct landmark regions, and logical heading structure.
+
+---
+
+## Troubleshooting
+
+**Screen reader announces unexpected content**
+Check for elements with `aria-hidden="true"` that are still focusable. Remove from the tab order with `tabIndex={-1}` first, or restructure the DOM so the element is genuinely hidden.
+
+**Focus trap not working in modal**
+Ensure the focusable query selector covers all interactive element types including `[tabindex]:not([tabindex="-1"])`. Re-query the list after any dynamic content changes inside the modal.
+
+**`aria-live` region not announcing**
+The element must exist in the DOM before content is injected — do not mount it conditionally. Prefer `aria-live="polite"` unless the message is a critical error.
+
+**Custom element fails keyboard test**
+If you cannot use a native `<button>`, you need `role="button"`, `tabIndex={0}`, and both `onClick` and `onKeyDown` handlers for `Enter` and `Space`. But prefer the native element — it handles all this automatically.
+
+**ESLint jsx-a11y false positives**
+Component props named `role` that are not the HTML `role` attribute, and components that forward ARIA props to underlying elements, are known false positives. Suppress with `eslint-disable-next-line` and a comment explaining why.
+
+---
 
 ## Standards Reference
 
 - [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
 - [axe-core Rules](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md)
 - [jsx-a11y Rules](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y#supported-rules)
+- ESLint setup → `references/eslint-setup.md`
+- Pre-commit checklist → `references/pr-checklist.md`

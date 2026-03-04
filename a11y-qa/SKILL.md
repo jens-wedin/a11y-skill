@@ -1,13 +1,10 @@
 ---
 name: a11y-qa
-version: "1.0"
 description: >
-  Accessibility testing and auditing skill for QA engineers. Runs automated scans
-  with axe-core and eslint-plugin-jsx-a11y, classifies violations by severity,
-  produces structured reports, and provides manual test checklists.
-  Triggers: "run accessibility audit", "check WCAG compliance", "accessibility test",
-  "a11y-qa", "a11y-audit", "accessibility-qa", "test accessibility", "audit a11y"
-group: accessibility
+  Use when asked to run an accessibility audit, test for WCAG compliance, check a11y,
+  scan for accessibility issues, generate an accessibility report, or when the user
+  says "audit a11y", "a11y-qa", "accessibility-qa", "test accessibility", "check WCAG",
+  "axe-core scan", "jsx-a11y lint", or "find accessibility violations".
 ---
 
 # Accessibility QA Testing
@@ -36,7 +33,7 @@ Default to **runtime** unless the user specifies otherwise or no dev server is a
 Tests the live rendered page — catches issues that only appear at runtime (dynamic
 content, third-party components, CSS-driven visibility).
 
-**Standards:** WCAG 2.1 Level AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`) + best practices.
+**Standards:** WCAG 2.2 Level AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`) + best practices.
 
 ### 2a. Discover pages to scan
 
@@ -68,12 +65,14 @@ For each page, use browser automation to:
 (async () => {
   if (!window.axe) {
     const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.4/axe.min.js';
+    // Check https://github.com/dequelabs/axe-core/releases for the latest version.
+    // Alternatively use 'https://unpkg.com/axe-core/axe.min.js' (always latest, no version pin).
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js';
     document.head.appendChild(script);
     await new Promise(resolve => { script.onload = resolve; });
   }
   const results = await axe.run(document, {
-    runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']
+    runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice']
   });
   window.__axeResults = {
     page: window.location.pathname,
@@ -197,7 +196,7 @@ Always present findings in this structure:
 ## Accessibility Audit Results
 
 **Scan mode:** [runtime / static / full]
-**Standards:** WCAG 2.1 Level AA + Best Practices
+**Standards:** WCAG 2.2 Level AA + Best Practices
 **Date:** [date]
 **Pages / files scanned:** [count]
 
@@ -243,82 +242,92 @@ Critical: [n] | Serious: [n] | Moderate: [n] | Minor: [n]
 
 ## Step 7: Manual Test Checklist
 
-Automated tools find ~30–40% of accessibility issues. Complete this manual checklist
-for the pages under test:
+Automated tools find ~30–40% of accessibility issues. After the automated scan,
+complete the manual checklist in `references/manual-checklist.md`. It covers:
 
-### Keyboard-Only Navigation
-
-- [ ] Tab from the top of the page to the bottom — every interactive element receives focus
-- [ ] Focus indicator is always visible (never disappears)
-- [ ] Tab order matches visual reading order
-- [ ] Skip link appears and works (keyboard users bypass navigation)
-- [ ] Modal / dialog: Tab stays trapped inside while open; Escape closes it and returns focus to the trigger
-- [ ] Custom widgets (sliders, date pickers, tabs): arrow keys work as expected
-
-### Screen Reader Testing
-
-Test with at least one of: NVDA + Chrome (Windows), VoiceOver + Safari (macOS/iOS),
-TalkBack (Android).
-
-- [ ] Page `<title>` is descriptive and unique per page
-- [ ] `<html lang="…">` is set correctly
-- [ ] Heading structure makes sense when read in sequence (h1 → h2 → h3)
-- [ ] All images are announced with meaningful alt text (decorative images are skipped)
-- [ ] All form fields announce their label and any error messages
-- [ ] Error messages are announced immediately on validation (not only visually highlighted)
-- [ ] Dynamic content changes (loaded data, toasts, status) are announced via live regions
-- [ ] Link text is descriptive out of context (no "click here" or "read more" alone)
-- [ ] Buttons announce their purpose
-
-### Visual / Cognitive Checks
-
-- [ ] Zoom to 200% — no content is clipped, truncated, or overlaps
-- [ ] Zoom to 400% — page is still usable (scrolls, no horizontal scroll for text)
-- [ ] Color is never the only way to convey information (errors also have icons or text)
-- [ ] All text meets contrast ratio: 4.5:1 normal, 3:1 large text
-- [ ] Animated content can be paused, stopped, or hidden (WCAG 2.2.2)
-- [ ] Session timeouts warn the user with enough time to extend
-
-### Touch / Mobile
-
-- [ ] All interactive targets are at least 24×24 px (WCAG 2.5.8 minimum) / 44×44 px recommended
-- [ ] No functionality relies on hover only
-- [ ] Pinch-zoom is not disabled (`user-scalable=no` is absent)
+- **Keyboard-only navigation** — focus order, skip links, modal trapping
+- **Screen reader testing** — headings, labels, live regions, link names
+- **Visual/cognitive checks** — zoom reflow, colour independence, contrast
+- **Touch/mobile** — target sizes, hover-only patterns, pinch-zoom
 
 ---
 
 ## Step 8: WCAG 2.2 AA Quick Reference
 
-Key success criteria testers should verify:
+The full success-criteria reference table for testers is in `references/wcag-quick-ref.md`.
 
-| Criterion | Level | What to check |
-|-----------|-------|---------------|
-| 1.1.1 Non-text Content | A | All images, icons, charts have text alternatives |
-| 1.3.1 Info and Relationships | A | Structure (headings, lists, tables) conveyed in markup |
-| 1.3.2 Meaningful Sequence | A | Reading order in DOM matches visual order |
-| 1.4.1 Use of Color | A | Color is not the sole visual indicator |
-| 1.4.3 Contrast (Minimum) | AA | 4.5:1 normal text, 3:1 large text |
-| 1.4.4 Resize Text | AA | Text scales to 200% without loss of content |
-| 1.4.10 Reflow | AA | Content reflows at 400% zoom, no horizontal scroll |
-| 1.4.11 Non-text Contrast | AA | UI components and focus indicators meet 3:1 |
-| 1.4.12 Text Spacing | AA | No loss of content when letter/word/line spacing increased |
-| 2.1.1 Keyboard | A | All functionality operable by keyboard |
-| 2.1.2 No Keyboard Trap | A | Focus can always be moved away with keyboard |
-| 2.4.3 Focus Order | A | Focus order preserves meaning and operability |
-| 2.4.4 Link Purpose | A | Link purpose clear from text or context |
-| 2.4.7 Focus Visible | AA | Keyboard focus indicator is visible |
-| 2.4.11 Focus Appearance | AA (2.2) | Focus indicator meets minimum size and contrast |
-| 2.5.3 Label in Name | A | Visible label text is included in accessible name |
-| 2.5.8 Target Size (Minimum) | AA (2.2) | Interactive targets at least 24×24 px |
-| 3.1.1 Language of Page | A | `<html lang="…">` is set |
-| 3.3.1 Error Identification | A | Errors identified in text, not just color |
-| 3.3.2 Labels or Instructions | A | All form fields have labels |
-| 4.1.2 Name, Role, Value | A | All UI components have name, role, and state in markup |
-| 4.1.3 Status Messages | AA | Status messages announced without focus (live regions) |
+Key thresholds to remember:
+- **Text contrast:** 4.5:1 (normal) / 3:1 (large ≥18pt or bold ≥14pt)
+- **Non-text contrast (UI, focus):** 3:1
+- **Target size minimum:** 24×24 px (WCAG 2.5.8) / 44×44 px recommended
+- **Reflow:** usable at 400% zoom, no horizontal scroll
 
+
+---
+
+## Examples
+
+### Example 1: Runtime audit before release
+
+User says: "run an accessibility audit on my app"
+
+Actions:
+1. Default to **runtime** mode
+2. Discover routes (`src/app/**/page.tsx` or `pages/**/*.tsx`)
+3. Start dev server, wait for HTTP 200
+4. Inject axe-core and scan each page
+5. Kill server, classify violations by impact, generate report
+
+Result: Structured report with violation count per page, impact levels, fix recommendations, and prioritised next steps.
+
+### Example 2: Static scan during PR review
+
+User says: "check accessibility in my components before I merge"
+
+Actions:
+1. Use **static** mode — no running server needed
+2. Install `eslint-plugin-jsx-a11y` if absent
+3. Create temp `eslint.a11y.mjs`, run scan on `src/`
+4. Delete config, report violations with file/line references, filter false positives
+
+Result: Source-level violations with actionable line numbers.
+
+### Example 3: Full pre-release audit
+
+User says: "full a11y audit before we ship"
+
+Actions:
+1. Use **full** mode — static first, then runtime
+2. Merge findings, classify by impact
+3. Append manual test checklist (see `references/manual-checklist.md`)
+
+Result: Combined static + runtime report plus manual testing guide.
+
+---
+
+## Troubleshooting
+
+**Dev server won't start**
+Check `package.json` scripts for the right command (`dev`, `start`, `serve`). For monorepos, confirm you're running from the correct package directory.
+
+**axe-core CDN script blocked**
+A strict Content Security Policy will block the CDN injection silently. Switch to static mode, or install axe-core locally and serve it from `localhost`.
+
+**ESLint scan produces no output**
+Verify the glob in `eslint.a11y.mjs` matches your file structure. If source lives outside `src/`, adjust the `files` pattern.
+
+**Too many false positives from jsx-a11y**
+Custom component props named `role` (not the HTML attribute) and components forwarding ARIA props to child elements are known false positives — see Step 3e.
+
+**axe-core `incomplete` results**
+`incomplete` means axe-core could not automatically pass or fail (common with colour contrast on dynamic content). Treat as manual review candidates, not confirmed violations.
+
+---
 
 ## Standards Reference
 
 - [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
 - [axe-core Rules](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md)
 - [jsx-a11y Rules](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y#supported-rules)
+- Manual test checklist → `references/manual-checklist.md`
+- WCAG 2.2 AA quick reference → `references/wcag-quick-ref.md`
