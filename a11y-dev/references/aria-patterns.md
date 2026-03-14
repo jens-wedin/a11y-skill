@@ -92,3 +92,20 @@ function Modal({ isOpen, onClose, triggerRef, children }) {
 - Re-query focusable elements if modal content changes dynamically
 - Always return focus to the trigger on close (Escape key and close button)
 - Use a real dialog library (Radix, Headless UI) in production — they handle edge cases
+
+---
+
+## ARIA Roles Quick Reference
+
+| Role | Use for |
+|------|---------|
+| `button` | Clickable non-`<button>` elements |
+| `dialog` | Modal dialogs |
+| `alert` | Important messages that interrupt (e.g., errors) |
+| `status` | Polite status updates (e.g., "Saved") |
+| `navigation` | Navigation landmark (prefer `<nav>`) |
+| `tablist` / `tab` / `tabpanel` | Tab interface |
+| `menu` / `menuitem` | Dropdown command menus |
+| `combobox` | Autocomplete / searchable select |
+| `progressbar` | Progress indicators |
+| `tooltip` | Supplementary hover/focus labels |

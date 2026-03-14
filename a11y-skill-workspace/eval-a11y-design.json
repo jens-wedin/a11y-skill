@@ -1,0 +1,22 @@
+[
+  {"query": "I just finished the mockup for our new settings page in Figma. can you review it for accessibility before I hand it off to the developers?", "should_trigger": true},
+  {"query": "annotate my Figma design with a11y specs — I need focus order, heading levels, landmarks, and ARIA roles documented for the dev team", "should_trigger": true},
+  {"query": "check my mockup for contrast issues and target size compliance. the designer used some subtle grays and small touch targets", "should_trigger": true},
+  {"query": "is my design ready for accessibility handoff? I want to make sure nothing blocks the developers when they start building", "should_trigger": true},
+  {"query": "I'm designing a new onboarding flow with 5 screens. can you create a11y specs for each screen so the developers know what landmarks, headings, and ARIA roles to use?", "should_trigger": true},
+  {"query": "here's a screenshot of our mobile app redesign. can you do an inclusive design review and flag anything that might cause accessibility issues?", "should_trigger": true},
+  {"query": "our design system has some components without defined focus states. can you identify which ones need attention and suggest focus styles?", "should_trigger": true},
+  {"query": "I'm sharing my Figma file for the dashboard redesign — please check that all interactive elements have proper contrast and are large enough for touch", "should_trigger": true},
+  {"query": "create a designer accessibility checklist for our team. we keep missing things like focus states and heading hierarchy in our handoffs", "should_trigger": true},
+  {"query": "review the UI specs I exported from Figma — do the colour tokens meet WCAG AA contrast ratios? I'm especially worried about the muted text variants", "should_trigger": true},
+  {"query": "run an axe-core scan on my running app at localhost:3000 and generate a WCAG compliance report", "should_trigger": false},
+  {"query": "help me implement a focus trap for the modal dialog component in React. when it opens, tab should cycle within it", "should_trigger": false},
+  {"query": "add aria-label attributes to all the icon buttons in my React navbar component", "should_trigger": false},
+  {"query": "set up eslint-plugin-jsx-a11y in our TypeScript project so we catch accessibility issues during development", "should_trigger": false},
+  {"query": "I need to write Playwright tests for the login form. test that it submits correctly and shows validation errors", "should_trigger": false},
+  {"query": "can you create a REST API with Express and MongoDB for managing a todo list? I need CRUD endpoints", "should_trigger": false},
+  {"query": "optimize the performance of our React dashboard — it's re-rendering too often and the charts are slow", "should_trigger": false},
+  {"query": "help me fix the CSS layout on our pricing page. the cards don't align properly on tablet-sized screens", "should_trigger": false},
+  {"query": "deploy our static site to Netlify and set up automatic deployments from the main branch", "should_trigger": false},
+  {"query": "write a bash script that backs up our PostgreSQL database nightly and uploads the dump to S3", "should_trigger": false}
+]

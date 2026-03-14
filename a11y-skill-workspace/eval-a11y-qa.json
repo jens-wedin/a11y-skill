@@ -1,0 +1,22 @@
+[
+  {"query": "run an accessibility audit on my Next.js app before we push to production. it's running on localhost:3000", "should_trigger": true},
+  {"query": "a11y-qa our staging site — we need a full WCAG compliance report for the client before Friday's release", "should_trigger": true},
+  {"query": "can you scan my React components with axe-core and jsx-a11y? I want to catch any violations before this PR gets merged", "should_trigger": true},
+  {"query": "we're about to ship v2.0 and I need a comprehensive accessibility check across all pages — both automated and manual testing guidance", "should_trigger": true},
+  {"query": "test accessibility on our e-commerce checkout flow — the cart page, address form, payment form, and confirmation page at localhost:4200", "should_trigger": true},
+  {"query": "find all accessibility violations in my static HTML portfolio site. there are about 6 pages in the public/ directory", "should_trigger": true},
+  {"query": "do a pre-merge a11y check on the components I changed in this branch. specifically src/components/Modal.tsx and src/components/DataTable.tsx", "should_trigger": true},
+  {"query": "audit a11y on the landing page — marketing wants to make sure we're WCAG AA compliant before the campaign launch next week", "should_trigger": true},
+  {"query": "check WCAG compliance for our admin dashboard. it has about 12 routes and uses shadcn/ui components", "should_trigger": true},
+  {"query": "generate an accessibility report for our app. we got a complaint from a screen reader user that they can't navigate the settings page", "should_trigger": true},
+  {"query": "I'm building a new accordion component in React, help me make it accessible with proper ARIA attributes and keyboard handling", "should_trigger": false},
+  {"query": "annotate my Figma design with accessibility specifications for developer handoff — focus order, heading levels, landmarks", "should_trigger": false},
+  {"query": "help me write unit tests for my authentication service using vitest. I need to cover login, logout, and token refresh", "should_trigger": false},
+  {"query": "our Docker container keeps crashing on startup. the logs show a SIGTERM after about 30 seconds. can you help debug?", "should_trigger": false},
+  {"query": "add dark mode support to our Tailwind CSS design system. we want to use CSS custom properties for theming", "should_trigger": false},
+  {"query": "review my Figma mockup for contrast issues and target size compliance before I hand it off to the dev team", "should_trigger": false},
+  {"query": "I need to set up a CI/CD pipeline with GitHub Actions that runs tests, builds the app, and deploys to AWS", "should_trigger": false},
+  {"query": "can you add ARIA labels to the icon buttons in my navigation component? they're missing accessible names", "should_trigger": false},
+  {"query": "refactor our API routes from Express to Fastify. we need better TypeScript support and schema validation", "should_trigger": false},
+  {"query": "create a responsive CSS grid layout for a blog page with sidebar navigation, main content area, and related articles section", "should_trigger": false}
+]

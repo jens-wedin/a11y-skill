@@ -1,0 +1,22 @@
+[
+  {"query": "I'm building a custom date picker component in React with Radix primitives — can you make sure it's properly accessible with keyboard navigation and screen reader support?", "should_trigger": true},
+  {"query": "we have a modal dialog that opens from a button click but screen reader users are complaining they can't find the close button, help me fix the accessibility", "should_trigger": true},
+  {"query": "add aria labels to all the icon buttons in my navbar component, they're just icons right now with no text", "should_trigger": true},
+  {"query": "I'm creating a new Vue 3 component for a filterable data table with sortable columns and pagination. want to get the a11y right from the start", "should_trigger": true},
+  {"query": "our form validation shows errors but VoiceOver doesn't announce them. the error messages appear below each field in red text", "should_trigger": true},
+  {"query": "make this accessible — it's a card grid layout with clickable cards that expand to show details, built with Tailwind and React", "should_trigger": true},
+  {"query": "I need to add a skip link and proper landmark regions to our Next.js app layout. currently keyboard users have to tab through the entire nav on every page", "should_trigger": true},
+  {"query": "can you review this Svelte component for accessibility issues? it's a custom dropdown select with search filtering", "should_trigger": true},
+  {"query": "write semantic HTML for a pricing page with three plan cards, a feature comparison table, and a FAQ accordion section", "should_trigger": true},
+  {"query": "I need to set up focus management for a multi-step wizard form — when users click Next, focus should move to the new step's first field", "should_trigger": true},
+  {"query": "run an accessibility audit on my staging site at localhost:3000 and give me a report of all WCAG violations", "should_trigger": false},
+  {"query": "can you check the color contrast ratios in my Figma mockup? the designer used some light grays that look questionable", "should_trigger": false},
+  {"query": "I want to write end-to-end tests for my checkout flow using Playwright — test that the form submits and redirects properly", "should_trigger": false},
+  {"query": "help me optimize the bundle size of my React app, it's loading too slowly on mobile. maybe we need code splitting", "should_trigger": false},
+  {"query": "set up ESLint with prettier and the airbnb config for our TypeScript monorepo. we need consistent formatting across packages", "should_trigger": false},
+  {"query": "deploy my Next.js app to Vercel and configure the custom domain with SSL", "should_trigger": false},
+  {"query": "annotate my design mockup with accessibility specs for the developer handoff — focus order, heading levels, ARIA roles", "should_trigger": false},
+  {"query": "our API endpoint is returning 500 errors when users submit the contact form. can you debug the server-side handler?", "should_trigger": false},
+  {"query": "write a Python script that scrapes product prices from three competitor websites and saves them to a CSV", "should_trigger": false},
+  {"query": "I need to create database migrations for adding a user preferences table with columns for theme, language, and notification settings", "should_trigger": false}
+]
